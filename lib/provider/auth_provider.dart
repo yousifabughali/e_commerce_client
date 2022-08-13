@@ -62,8 +62,15 @@ class AuthProvider extends ChangeNotifier{
     }
   }
 
-  checkUser(){
-    AuthHelper.authHelper.checkUser();
+  checkUser() async {
+    AppUser? appUser=await AuthHelper.authHelper.checkUser();
+    if(appUser!=null){
+      emailController.text=appUser.email;
+      phoneController.text=appUser.phone;
+      userNameController.text=appUser.userName;
+      await AppRouter.NavigateWithReplacemtnToWidget(HomeScreen());
+
+    }
   }
 
   signOut(){

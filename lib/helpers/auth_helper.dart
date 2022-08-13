@@ -1,4 +1,6 @@
 import 'package:e_commerce_app/app_router/router.dart';
+import 'package:e_commerce_app/helpers/firestore_helper.dart';
+import 'package:e_commerce_app/model/user.dart';
 import 'package:e_commerce_app/views/screens/auth/sign_in_screen.dart';
 import 'package:e_commerce_app/views/screens/home_screen.dart';
 import 'package:e_commerce_app/views/widgets/custom_widget_dialoge.dart';
@@ -44,12 +46,15 @@ class AuthHelper{
 
   }
 
-  checkUser() async {
+  Future<AppUser?> checkUser() async {
     User? user = await FirebaseAuth.instance.currentUser;
     if (user == null) {
        AppRouter.NavigateWithReplacemtnToWidget(SignInScreen());
+       return null;
     } else {
-       AppRouter.NavigateWithReplacemtnToWidget(HomeScreen());
+      AppUser appUser= await FireStoreHelper.fireStoreHelper.getUserFromFireStore(user.uid);
+      return appUser;
+       // AppRouter.NavigateWithReplacemtnToWidget(HomeScreen());
 
     }
   }

@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:e_commerce_app/helpers/storage_helper.dart';
 import 'package:e_commerce_app/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -33,10 +37,12 @@ class HomeScreen extends StatelessWidget {
                   provider.phoneController.text),
               // Text(FireStoreHelper.fireStoreHelper.getUserFromFireStore(Cre))
               ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    XFile? selectedImage= await ImagePicker().pickImage(source: ImageSource.camera);
+                    await StorageHelper.storageHelper.uploadImage(File(selectedImage!.path));
                     // Provider.of<FireStoreProvider>(context,listen: false).insertNewCategory();
                   },
-                  child: Text('Add Category'))
+                  child: Text('Add image'),),
             ],
           ),
         ),
