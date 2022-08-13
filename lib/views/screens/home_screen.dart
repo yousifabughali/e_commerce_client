@@ -1,5 +1,4 @@
 import 'package:e_commerce_app/provider/auth_provider.dart';
-import 'package:e_commerce_app/provider/firestore_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,6 +31,7 @@ class HomeScreen extends StatelessWidget {
                   provider.userNameController.text +
                   '\n' +
                   provider.phoneController.text),
+              // Text(FireStoreHelper.fireStoreHelper.getUserFromFireStore(Cre))
               ElevatedButton(
                   onPressed: () {
                     // Provider.of<FireStoreProvider>(context,listen: false).insertNewCategory();

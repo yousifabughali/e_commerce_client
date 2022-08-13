@@ -38,14 +38,19 @@ class AuthProvider extends ChangeNotifier{
     if(signInKey.currentState!.validate()) {
       UserCredential? credential= await AuthHelper.authHelper.signIn(
           emailController.text,passwordController.text);
-      if (credential!=null){
-        AppRouter.NavigateWithReplacemtnToWidget(HomeScreen());
+      if (credential!=null) {
+        AppUser appUser= await FireStoreHelper.fireStoreHelper.getUserFromFireStore(credential.user!.uid);
+        emailController.text=appUser.email;
+        phoneController.text=appUser.phone;
+        userNameController.text=appUser.userName;
+        await AppRouter.NavigateWithReplacemtnToWidget(HomeScreen());
+
 
       }
     }
   }
    signUp() async {
-    if(signInKey.currentState!.validate()) {
+    if(signUpKey.currentState!.validate()) {
       UserCredential? credential= await AuthHelper.authHelper.signUp(
           emailController.text,passwordController.text);
       AppUser appUser =AppUser(email: emailController.text, userName: userNameController.text, phone: phoneController.text,id: credential!.user!.uid);
@@ -62,7 +67,12 @@ class AuthProvider extends ChangeNotifier{
   }
 
   signOut(){
+    emailController.text='';
+    phoneController.text='';
+    userNameController.text='';
+    passwordController.text='';
     AuthHelper.authHelper.signOut();
+
   }
 
   forgetPassword(){

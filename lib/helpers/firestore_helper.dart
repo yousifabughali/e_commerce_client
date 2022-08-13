@@ -24,6 +24,7 @@ class FireStoreHelper {
     DocumentSnapshot<
         Map<String, dynamic>> documentSnapshot = await userCollection.doc(id)
         .get();
+
     return AppUser.fromMap(documentSnapshot.data()!);
   }
 
