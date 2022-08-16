@@ -2,6 +2,7 @@ import 'package:e_commerce_app/app_router/router.dart';
 import 'package:e_commerce_app/helpers/auth_helper.dart';
 import 'package:e_commerce_app/helpers/firestore_helper.dart';
 import 'package:e_commerce_app/model/user.dart';
+import 'package:e_commerce_app/views/screens/categories_screen.dart';
 import 'package:e_commerce_app/views/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,7 @@ class AuthProvider extends ChangeNotifier{
       emailController.text=appUser.email;
       phoneController.text=appUser.phone;
       userNameController.text=appUser.userName;
-      await AppRouter.NavigateWithReplacemtnToWidget(HomeScreen());
+      await AppRouter.NavigateWithReplacemtnToWidget(CategoriesScreen());
 
     }
   }
