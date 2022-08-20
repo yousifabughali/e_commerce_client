@@ -12,6 +12,7 @@ class SignInScreen extends StatelessWidget {
     return Consumer<AuthProvider>(
       builder: (context, provider, child) {
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
           appBar: AppBar(
             title: const Text(
@@ -27,58 +28,85 @@ class SignInScreen extends StatelessWidget {
             child: Form(
               key: provider.signInKey,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14,vertical: 8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextFormField(
-                      controller: provider.emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                          label: Text('E-mail'), border: OutlineInputBorder()),
-                      validator: provider.emailValidation,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      controller: provider.passwordController,
-                      keyboardType: TextInputType.text,
-                      obscureText: true,
-                      obscuringCharacter: '*',
-                      decoration: InputDecoration(
-                          label: Text('Password'),
-                          border: OutlineInputBorder()),
-                      validator: provider.passwordValidation,
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        provider.signIn();
-                      },
-                      child: Text('Sign In'),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        AppRouter.NavigateWithReplacemtnToWidget(SignUpScreen());
-                      },
-                      child: Text('Don\'t have an account?, Create account.'),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        provider.forgetPassword();
-                      },
-                      child: Text('Forget Password?'),
-                    ),
-                  ],
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextFormField(
+                        controller: provider.emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          label: const Text('Email'),
+                          prefixIcon: const Icon(
+                            Icons.alternate_email_sharp,
+                            color: Colors.black,
+                            size: 18,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        validator: provider.emailValidation,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: provider.passwordController,
+                        keyboardType: TextInputType.text,
+                        obscureText: true,
+                        obscuringCharacter: '*',
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(
+                            Icons.password,
+                            color: Colors.black,
+                            size: 18,
+                          ),
+                          label: const Text('Password'),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        validator: provider.passwordValidation,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                        ),
+                        onPressed: () {
+                          provider.signIn();
+                        },
+                        child: const Text('Sign In'),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          AppRouter.NavigateWithReplacemtnToWidget(
+                               SignUpScreen());
+                        },
+                        child: const Text('Don\'t have an account?, Create account.'),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          provider.forgetPassword();
+                        },
+                        child: const Text('Forget Password?'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

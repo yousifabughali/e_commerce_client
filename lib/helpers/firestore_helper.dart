@@ -26,12 +26,6 @@ class FireStoreHelper {
     return AppUser.fromMap(documentSnapshot.data()!);
   }
 
-  Future<Category> addNewCategory(Category category) async {
-    DocumentReference<Map<String, dynamic>> documentReference =
-        await categoriesCollection.add(category.toMap());
-    category.id = documentReference.id;
-    return category;
-  }
 
   Future<List<Category>> getAllCategories() async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot =
@@ -46,22 +40,7 @@ class FireStoreHelper {
     return categories;
   }
 
-  updateCategory(Category category) async {
-    await categoriesCollection.doc(category.id).update(category.toMap());
-  }
 
-  deleteCategory(Category category) async {
-    await categoriesCollection.doc(category.id).delete();
-  }
-
-  //products
-  Future<Product> addNewProduct(Product product, String catId) async {
-    DocumentReference<Map<String, dynamic>> documentReference =
-    await categoriesCollection.doc(catId).collection('products').add(product.toMap());
-    product.id=documentReference.id;
-    return product;
-
-  }
 
   Future<List<Product>> getAllProduct(String catId) async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot =
@@ -73,21 +52,9 @@ class FireStoreHelper {
       product.id = e.id;
       return product;
     }).toList();
+    print(products);
     return products;
   }
 
-  updateProduct(Product product, String catId) async {
-    await categoriesCollection
-        .doc(catId)
-        .collection('products')
-        .doc(product.id)
-        .update(product.toMap());
-  }
 
-  deleteProduct(Product product, String catId) async {
-    await categoriesCollection
-        .doc(catId)
-        .collection('products')
-        .doc(product.id).delete();
-  }
 }

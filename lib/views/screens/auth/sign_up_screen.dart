@@ -1,20 +1,20 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:e_commerce_app/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+  String? countryCode;
+  SignUpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthProvider>(
-        builder: (context, provider, child)
-    {
+    return Consumer<AuthProvider>(builder: (context, provider, child) {
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text(
-            'Sign-In',
+            'Sign-Up',
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
           ),
           centerTitle: true,
@@ -33,10 +33,19 @@ class SignUpScreen extends StatelessWidget {
                     controller: provider.emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                        label: Text('E-mail'), border: OutlineInputBorder()),
+                      label: const Text('Email'),
+                      prefixIcon: const Icon(
+                        Icons.alternate_email_sharp,
+                        color: Colors.black,
+                        size: 18,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
                     validator: provider.emailValidation,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   TextFormField(
@@ -45,40 +54,71 @@ class SignUpScreen extends StatelessWidget {
                     obscureText: true,
                     obscuringCharacter: '*',
                     decoration: InputDecoration(
-                        label: Text('Password'),
-                        border: OutlineInputBorder()),
+                      label: const Text('Password'),
+                      prefixIcon: const Icon(
+                        Icons.lock,
+                        color: Colors.black,
+                        size: 18,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
                     validator: provider.passwordValidation,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   TextFormField(
                     controller: provider.userNameController,
+                    validator: provider.nullValidation,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
-                        label: Text('User Name'),
-                        border: OutlineInputBorder()),
+                      label: const Text('UserName'),
+                      prefixIcon: const Icon(
+                        Icons.person,
+                        color: Colors.black,
+                        size: 18,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   TextFormField(
                     controller: provider.phoneController,
+                    validator: provider.nullValidation,
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
-                        label: Text('Phone'),
-                        border: OutlineInputBorder()),
+                      label: const Text('Phone Number'),
+                      prefix: CountryCodePicker(
+                        onChanged: (value){
+                          countryCode=value.dialCode;
+                          // provider.phoneController.text=
+                        },
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.black,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25))),
                     onPressed: () {
-                      provider.signUp();
+                      provider.signUp(countryCode!);
                     },
-                    child: Text('Sign Up'),
+                    child: const Text('Sign Up'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                 ],

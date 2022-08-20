@@ -2,8 +2,7 @@ import 'package:e_commerce_app/app_router/router.dart';
 import 'package:e_commerce_app/helpers/auth_helper.dart';
 import 'package:e_commerce_app/helpers/firestore_helper.dart';
 import 'package:e_commerce_app/model/user.dart';
-import 'package:e_commerce_app/views/screens/categories_screen.dart';
-import 'package:e_commerce_app/views/screens/home_screen.dart';
+import 'package:e_commerce_app/views/screens/category_screens/categories_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:string_validator/string_validator.dart';
@@ -18,7 +17,7 @@ class AuthProvider extends ChangeNotifier{
 
 
 
-  nullValidation(String? value) {
+  String? nullValidation(String? value) {
     if (value == null || value.isEmpty) {
       return 'This Field is required';
     }
@@ -44,20 +43,20 @@ class AuthProvider extends ChangeNotifier{
         emailController.text=appUser.email;
         phoneController.text=appUser.phone;
         userNameController.text=appUser.userName;
-        await AppRouter.NavigateWithReplacemtnToWidget(HomeScreen());
+        await AppRouter.NavigateWithReplacemtnToWidget(CategoriesScreen());
 
 
       }
     }
   }
-   signUp() async {
+   signUp(String countryCode) async {
     if(signUpKey.currentState!.validate()) {
       UserCredential? credential= await AuthHelper.authHelper.signUp(
           emailController.text,passwordController.text);
-      AppUser appUser =AppUser(email: emailController.text, userName: userNameController.text, phone: phoneController.text,id: credential!.user!.uid);
+      AppUser appUser =AppUser(email: emailController.text, userName: userNameController.text, phone: countryCode+phoneController.text,id: credential!.user!.uid);
       FireStoreHelper.fireStoreHelper.addUsersToFireStore(appUser);
       if (credential!=null){
-        AppRouter.NavigateWithReplacemtnToWidget(HomeScreen());
+        AppRouter.NavigateWithReplacemtnToWidget(CategoriesScreen());
 
       }
     }
@@ -70,7 +69,6 @@ class AuthProvider extends ChangeNotifier{
       phoneController.text=appUser.phone;
       userNameController.text=appUser.userName;
       await AppRouter.NavigateWithReplacemtnToWidget(CategoriesScreen());
-
     }
   }
 
